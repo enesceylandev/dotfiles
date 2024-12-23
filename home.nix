@@ -2,66 +2,62 @@
 
 {
   imports = [
-    ./sh.nix
+    ./modules/home
   ];
-  # Home Manager needs a bit of information about you and the paths it should
-  # manage.
   home.username = "enes";
   home.homeDirectory = "/home/enes";
 
-  home.stateVersion = "24.11"; # Please read the comment before changing.
+  home.stateVersion = "24.11";
   home.enableNixpkgsReleaseCheck = false;
-  home.packages = [
-    pkgs.hello
-
+  home.packages = with pkgs; [
+	neovim
+	# kitty
+	ncdu
+	rofi-wayland
+	yazi
+#	discord-canary
+	grim
+	slurp
+	wl-clipboard
+	pulseaudio
   ];
 
   home.file = {
-	".config/kitty" = {
-		source = ./configs/kitty;
-	};
-	".config/waybar" = {
-		source = ./configs/waybar;
-	};
-	".config/hypr" = {
-		source = ./configs/hypr;
-	};
+	# ".config/kitty" = {
+	# 	source = ./configs/kitty;
+	# 	recursive = true;
+	# };
+	# ".config/waybar" = {
+	# 	source = ./configs/waybar;
+	# 	recursive = true;
+	# };
+	# ".config/hypr" = {
+	# 	source = ./configs/hypr;
+	# 	recursive = true;
+	# };
 	".config/dunst" = {
 		source = ./configs/dunst;
+		recursive = true;
 	};
 	".config/rofi" = {
 		source = ./configs/rofi;
+		recursive = true;
 	};
 	".config/nvim" = {
 		source = ./configs/nvim;
+		recursive = true;
 	};
 	".config/neofetch" = {
 		source = ./configs/neofetch;
+		recursive = true;
 	};
 	".config/btop" = {
 		source = ./configs/btop;
+		recursive = true;
 	};
 	
   };
-
-  # Home Manager can also manage your environment variables through
-  # 'home.sessionVariables'. These will be explicitly sourced when using a
-  # shell provided by Home Manager. If you don't want to manage your shell
-  # through Home Manager then you have to manually source 'hm-session-vars.sh'
-  # located at either
-  #
-  #  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
-  #
-  # or
-  #
-  #  ~/.local/state/nix/profiles/profile/etc/profile.d/hm-session-vars.sh
-  #
-  # or
-  #
-  #  /etc/profiles/per-user/enes/etc/profile.d/hm-session-vars.sh
-  #
   home.sessionVariables = {
-    # EDITOR = "emacs";
   };
 
   # Let Home Manager install and manage itself.

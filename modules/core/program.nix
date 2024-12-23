@@ -9,11 +9,4 @@
       xwayland.enable = true;
     };
   };
-
-  environment.systemPackages = with pkgs; [
-     git
-     gcc 
-     nodejs_22
-     unzip
-  ];
 }

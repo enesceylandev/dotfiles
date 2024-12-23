@@ -17,14 +17,14 @@
 		nixosConfigurations = {
 			nixos = lib.nixosSystem {
 				inherit system;
-				modules = [ ./services/dns.nix ./configuration.nix ];
+				modules = [ ./modules/core ./configuration.nix ];
 			};
 		};
 
 		homeConfigurations = {
 			enes = home-manager.lib.homeManagerConfiguration {
 				inherit pkgs;
-				modules = [ ./home.nix ];
+				modules = [ ./modules/home ./home.nix ];
 			};
 		};
 	};

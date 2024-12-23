@@ -77,6 +77,11 @@
     nerd-fonts.droid-sans-mono  
   ];
 
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  };
+
   # Dont Change this value
   system.stateVersion = "24.11";
 }
