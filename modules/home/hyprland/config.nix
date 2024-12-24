@@ -2,11 +2,12 @@
 
 {
   wayland.windowManager.hyprland.settings = {
+    monitor="DP-1,1920x1080@165,0x0,1";
+
     exec-once = [
       "waybar"
       "hyprpaper"
       "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
-
     ];
 
     input = {
@@ -72,6 +73,5 @@
     GBM_BACKEND = "nvidia-drm";
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
     WLR_NO_HARDWARE_CURSORS = "1";
-    GTK_THEME = "Gruvbox-Green-Dark";
   };
 }   

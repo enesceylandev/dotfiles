@@ -2,11 +2,15 @@
 
 {
   imports = [
+    ./hyprland
+    ./waybar
+    ./nvim
+    
+    ./rofi.nix
     ./btop.nix
     ./browser.nix
     ./sh.nix
-    ./hyprland
-    ./waybar
-    ./kitty
+    ./kitty.nix
+    ./dunst.nix
   ];
 }

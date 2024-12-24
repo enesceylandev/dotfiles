@@ -70,8 +70,8 @@
     "$mainMod SHIFT, up, movewindow, u"
     "$mainMod SHIFT, down, movewindow, d"
 
-    "$mainMod SHIFT, S, exec, grim -g '$(slurp -d)' - | wl-copy"
-    "$mainMod control, S, exec, grim -g '$(slurp -d)' - | wl-copy && wl-paste > ~/Documents/notes/media/Screenshot-$(date +%F_%T).png "
+    "$mainMod SHIFT, S, exec, grim -g \"$(slurp)\" - | wl-copy"
+    "$mainMod control, S, exec, grim -g \"$(slurp)\" - | wl-copy && wl-paste > ~/Documents/notes/media/Screenshot-$(date +%F_%T).png "
     ];
 
     # Move/resize windows with mainMod + LMB/RMB and dragging

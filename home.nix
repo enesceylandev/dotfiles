@@ -10,12 +10,12 @@
   home.stateVersion = "24.11";
   home.enableNixpkgsReleaseCheck = false;
   home.packages = with pkgs; [
-	neovim
-	# kitty
+	# neovim
 	ncdu
-	rofi-wayland
 	yazi
 #	discord-canary
+	pavucontrol
+	pass
 	grim
 	slurp
 	wl-clipboard
@@ -23,43 +23,37 @@
   ];
 
   home.file = {
-	# ".config/kitty" = {
-	# 	source = ./configs/kitty;
+	# ".config/nvim" = {
+	# 	source = ./configs/nvim;
 	# 	recursive = true;
 	# };
-	# ".config/waybar" = {
-	# 	source = ./configs/waybar;
-	# 	recursive = true;
-	# };
-	# ".config/hypr" = {
-	# 	source = ./configs/hypr;
-	# 	recursive = true;
-	# };
-	".config/dunst" = {
-		source = ./configs/dunst;
-		recursive = true;
-	};
-	".config/rofi" = {
-		source = ./configs/rofi;
-		recursive = true;
-	};
-	".config/nvim" = {
-		source = ./configs/nvim;
-		recursive = true;
-	};
 	".config/neofetch" = {
 		source = ./configs/neofetch;
 		recursive = true;
 	};
-	".config/btop" = {
-		source = ./configs/btop;
-		recursive = true;
-	};
-	
   };
   home.sessionVariables = {
   };
 
+
+  # home.pointerCursor = {
+  #   package = pkgs.catppuccin-cursors.mochaPeach;
+  #   name = "Catppuccin-Mocha-Peach-Cursors";
+  #   size = 40;
+  #   gtk.enable = true;
+  # };
+  #
+  # gtk = {
+  #   enable = true;
+  #   iconTheme = {
+  #     package = (pkgs.catppuccin-papirus-folders.override { flavor = "mocha"; accent = "peach"; });
+  #     name  = "Papirus-Dark";
+  #   };
+  #   theme = {
+  #     package = (pkgs.catppuccin-gtk.override { accents = [ "peach" ]; size = "standard"; variant = "mocha"; });
+  #     name = "Catppuccin-Mocha-Standard-Peach-Dark";
+  #   };
+  # };
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 
