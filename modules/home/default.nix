@@ -4,7 +4,6 @@
   imports = [
     ./hyprland
     ./waybar
-    ./nvim
     
     ./rofi.nix
     ./btop.nix
@@ -12,5 +11,6 @@
     ./sh.nix
     ./kitty.nix
     ./dunst.nix
+    ./fastfetch.nix
   ];
 }

@@ -6,13 +6,19 @@
   ];
   home.username = "enes";
   home.homeDirectory = "/home/enes";
-
+  nixpkgs = {
+    config = {
+      allowUnfree = true;
+      allowUnfreePredicate = (_: true);
+    };
+  };
   home.stateVersion = "24.11";
   home.enableNixpkgsReleaseCheck = false;
   home.packages = with pkgs; [
-	# neovim
+	neovim
 	ncdu
 	yazi
+	discord
 #	discord-canary
 	pavucontrol
 	pass
@@ -23,14 +29,14 @@
   ];
 
   home.file = {
-	# ".config/nvim" = {
-	# 	source = ./configs/nvim;
-	# 	recursive = true;
-	# };
-	".config/neofetch" = {
-		source = ./configs/neofetch;
-		recursive = true;
-	};
+      ".config/nvim" = {
+        source = ./configs/nvim;
+        recursive = true;
+      };
+      # ".config/neofetch" = {
+      #   source = ./configs/neofetch;
+      #   recursive = true;
+      # };
   };
   home.sessionVariables = {
   };

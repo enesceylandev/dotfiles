@@ -1,4 +1,3 @@
-vim.o.hlsearch = true                                -- Set highlight on search
 vim.wo.number = true                                 -- Make line numbers default
 vim.o.mouse = 'a'                                    -- Enable mouse mode
 vim.o.clipboard = 'unnamedplus'                      -- Sync clipboard between OS and Neovim.
