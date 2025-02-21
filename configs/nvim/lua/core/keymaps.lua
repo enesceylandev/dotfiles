@@ -23,6 +23,8 @@ vim.keymap.set('n', 'N', 'nzzzv', opts)
 vim.keymap.set('n', '<Tab>', ':bnext<CR>', opts) -- Next buffer
 vim.keymap.set('n', '<S-Tab>', ':bprevious<CR>', opts) -- Previous buffer
 vim.keymap.set('n', '<C-w>', ':Bdelete!<CR>', opts) -- Close buffer
+vim.keymap.set('n', '<leader>br', ':BufferLineCloseLeft<CR>', opts) -- Close buffer to the left
+vim.keymap.set('n', '<leader>bl', ':BufferLineCloseRight<CR>', opts) -- Close buffer to the right
 
 -- Split windows
 vim.keymap.set('n', '<leader>sv', '<C-w>v', { noremap = true, silent = true, desc = '[S]plit vertical' }) -- Vertical split

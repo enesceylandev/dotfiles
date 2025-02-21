@@ -65,7 +65,7 @@
   };
 
   home.sessionVariables = {
-    XCURSOR_SIZE = "24";
+    XCURSOR_SIZE = "20";
     QT_QPA_PLATFORMTHEME = "qt5ct";
     LIBVA_DRIVER_NAME = "nvidia";
     XDG_CURRENT_DESKTOP = "Hyprland";

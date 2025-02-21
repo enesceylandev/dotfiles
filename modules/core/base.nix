@@ -25,6 +25,12 @@
   # Enable the X11 windowing system.
   services.xserver = {
 	enable = true;
+	windowManager.qtile = {
+	  enable = true;
+	  extraPackages = python3Packages: with python3Packages; [
+	    qtile-extras
+	  ];
+	};
 	videoDrivers = ["nvidia"];
   };
 

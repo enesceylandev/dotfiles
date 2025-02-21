@@ -12,5 +12,6 @@
     ./kitty.nix
     ./dunst.nix
     ./fastfetch.nix
+    ./theme.nix
   ];
 }

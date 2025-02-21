@@ -16,15 +16,16 @@
         on-click = "activate";
         format = "{icon}";
         format-icons = {
-          "1" = "󰈹";
-          "2" = "󰈮";
-          "3" = "󰭹";
-          "4" = "";
-          "5" = "";
-          "6" = "󱞁";
-          "10" = "";
-          # "urgent" = "";
-          # "active" = "";
+          "1" = "󰈹"; # Eğlence
+          "2" = "󰈮"; # Kodlama
+          "3" = ""; # Arama yapma
+          "4" = "󰧑"; # Yapay zeka
+          "5" = ""; # Github
+          "6" = ""; # Müzik
+          "7" = "󰖣"; # Mesajlaşma
+          "8" = "󰙯"; # Discord
+          "9" = "󱞁"; # Notlar
+          # "10" = ""; # Server
           default = "";
         };
       };

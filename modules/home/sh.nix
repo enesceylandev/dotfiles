@@ -10,7 +10,11 @@
       size = 10000;
       path = "${config.xdg.dataHome}/zsh/history";
     };
-
+    shellAliases = {
+      hm = "home-manager switch --flake ~/.dotfiles";
+      update-home = "home-manager switch --flake ~/.dotfiles";
+      update-nix = "sudo nixos-rebuild switch --flake ~/.dotfiles";
+    };
     oh-my-zsh = {
       enable = true;
       theme = "fishy";

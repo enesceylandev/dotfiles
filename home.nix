@@ -18,14 +18,14 @@
 	neovim
 	ncdu
 	yazi
-	discord
-#	discord-canary
 	pavucontrol
+	gnupg
 	pass
 	grim
 	slurp
 	wl-clipboard
 	pulseaudio
+	teams-for-linux
   ];
 
   home.file = {
@@ -33,10 +33,6 @@
         source = ./configs/nvim;
         recursive = true;
       };
-      # ".config/neofetch" = {
-      #   source = ./configs/neofetch;
-      #   recursive = true;
-      # };
   };
   home.sessionVariables = {
   };
