@@ -10,6 +10,10 @@
       "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
     ];
 
+    windowrule = [
+      "opacity 0.3 override 0.3 override,title:(.*)(- Youtube)"
+    ];
+
     input = {
       kb_layout = "tr,us";
       kb_options = "grp:win_space_toggle";

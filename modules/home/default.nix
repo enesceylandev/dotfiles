@@ -4,6 +4,7 @@
   imports = [
     ./hyprland
     ./waybar
+    ./hyprpaper.nix
     
     ./rofi.nix
     ./btop.nix
