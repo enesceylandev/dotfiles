@@ -9,7 +9,7 @@ return {
     'williamboman/mason-lspconfig.nvim',
     config = function()
       require('mason-lspconfig').setup {
-        ensure_installed = { 'html', 'lua_ls', 'ts_ls', 'eslint', 'prettierd' },
+        ensure_installed = { 'html', 'lua_ls', 'ts_ls', 'eslint', 'harper_ls' },
       }
     end,
   },
@@ -21,7 +21,6 @@ return {
       lspconfig.lua_ls.setup {}
       lspconfig.ts_ls.setup {}
       lspconfig.eslint.setup {}
-      -- lspconfig.unocss.setup {}
 
       vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { noremap = true, silent = true, desc = '[G]oto [D]efinition' })
       vim.keymap.set('n', 'gr', ':Telescope lsp_references<CR>',

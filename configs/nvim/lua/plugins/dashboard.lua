@@ -19,7 +19,7 @@ return {
       dashboard.button('f', ' ' .. ' Find file', ':Telescope find_files <CR>'),
       dashboard.button('r', ' ' .. ' Recent files', ':Telescope oldfiles <CR>'),
       dashboard.button('s', ' ' .. 'Restore Session', '<cmd>lua require("persistence").load()<CR>'),
-      dashboard.button('c', ' ' .. ' Config', ':cd ~/.config/nvim/ | e ~/.config/nvim/init.lua <CR>'),
+      dashboard.button('c', ' ' .. ' Config', ':cd ~/.dotfiles/configs/nvim/ | e ~/.dotfiles/configs/nvim/init.lua <CR>'),
       dashboard.button('l', '󰒲 ' .. ' Lazy', ':Lazy<CR>'),
       dashboard.button('q', ' ' .. ' Quit', ':qa<CR>'),
     }

@@ -14,6 +14,8 @@
       hm = "home-manager switch --flake ~/.dotfiles";
       update-home = "home-manager switch --flake ~/.dotfiles";
       update-nix = "sudo nixos-rebuild switch --flake ~/.dotfiles";
+      f = "cd $(find . -type d -print | fzf)";
+      fn = ''find . -type d -print | fzf | xargs -I {} sh -c "cd '{}' && nvim ." '';
     };
     oh-my-zsh = {
       enable = true;

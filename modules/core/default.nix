@@ -20,5 +20,6 @@
      ripgrep
      dunst
      libnotify
+     fzf
   ];
 }
