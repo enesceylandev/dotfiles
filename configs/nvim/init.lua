@@ -22,7 +22,6 @@ require('lazy').setup({
   require 'plugins.none-ls',
   require 'plugins.supermaven',
   require 'plugins.toggleTerm',
-  require 'plugins.indentBlankline',
   require 'plugins.misc',
   require 'plugins.yazi',
   -- require 'plugins.harpoon',
