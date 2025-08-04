@@ -8,7 +8,7 @@ return {
       'MunifTanjim/nui.nvim',
     },
     config = function()
-      vim.keymap.set('n', '<leader>e', '<cmd>Neotree toggle position=right<CR>', { noremap = true, silent = true })
+      vim.keymap.set('n', '<leader>E', '<cmd>Neotree toggle position=right<CR>', { noremap = true, silent = true })
 
       require('neo-tree').setup {
         event_handlers = {

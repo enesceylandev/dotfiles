@@ -14,5 +14,7 @@
     ./dunst.nix
     ./fastfetch.nix
     ./theme.nix
+    ./yazi.nix
+    ./obs.nix
   ];
 }

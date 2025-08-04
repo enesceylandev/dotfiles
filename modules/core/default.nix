@@ -21,5 +21,9 @@
      dunst
      libnotify
      fzf
+     nemo
+     docker-compose
   ];
-}
+
+  virtualisation.docker.enable = true;
+  users.users.enes.extraGroups = [ "docker" ];}

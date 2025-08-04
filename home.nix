@@ -17,7 +17,6 @@
   home.packages = with pkgs; [
 	neovim
 	ncdu
-	yazi
 	pavucontrol
 	gnupg
 	pass

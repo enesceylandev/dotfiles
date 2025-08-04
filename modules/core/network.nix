@@ -10,6 +10,12 @@
     networkmanager.enable = true;
     dhcpcd.extraConfig = "nohook resolv.conf";
     networkmanager.dns = "none";
+
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [ 8081 ];
+      allowedUDPPorts = [];
+    };
   };
 
   services.stubby = {

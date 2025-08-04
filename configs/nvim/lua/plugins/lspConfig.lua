@@ -22,6 +22,7 @@ return {
       lspconfig.ts_ls.setup {}
       lspconfig.eslint.setup {}
 
+      -- Keymaps for basic LSP functionality
       vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { noremap = true, silent = true, desc = '[G]oto [D]efinition' })
       vim.keymap.set('n', 'gr', ':Telescope lsp_references<CR>',
         { noremap = true, silent = true, desc = '[G]oto [R]eferences' })
@@ -29,6 +30,9 @@ return {
       vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action,
         { noremap = true, silent = true, desc = '[C]ode [A]ctions' })
       vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename, { noremap = true, silent = true, desc = '[R]ename' })
+
+      vim.keymap.set('n', '<leader>ci', ':lua vim.lsp.buf.code_action({ context = { only = { "source.removeUnused" } } })<CR>',
+        { noremap = true, silent = true, desc = 'Remove [C]ode [I]mports' })
     end,
   },
 }

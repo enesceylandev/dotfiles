@@ -29,8 +29,12 @@ vim.keymap.set('n', '<leader>bl', ':BufferLineCloseRight<CR>', opts) -- Close bu
 -- Split windows
 vim.keymap.set('n', '<leader>sv', '<C-w>v', { noremap = true, silent = true, desc = '[S]plit vertical' }) -- Vertical split
 vim.keymap.set('n', '<leader>sh', '<C-w>s', { noremap = true, silent = true, desc = '[S]plit horizontal' }) -- Horizontal split
--- vim.keymap.set('n', '<leader>se', '<C-w>=', { noremap = true, silent = true, desc = '[S]plit Equlizer' })    -- Equalize splits
+vim.keymap.set('n', '<leader>se', '<C-w>=', { noremap = true, silent = true, desc = '[S]plit Equlizer' })    -- Equalize splits
 vim.keymap.set('n', '<leader>w', ':close<CR>', { noremap = true, silent = true, desc = 'Close the window' }) -- Close window
+vim.keymap.set('n', '<C-M-Left>', ':vertical resize -5<CR>', { desc = 'Shrink horizontally' })
+vim.keymap.set('n', '<C-M-Right>', ':vertical resize +5<CR>', { desc = 'Grow horizontally' })
+vim.keymap.set('n', '<C-M-Up>', ':resize -5<CR>', { desc = 'Grow vertically' })
+vim.keymap.set('n', '<C-M-Down>', ':resize +5<CR>', { desc = 'Shrink vertically' })
 
 -- Window navigation
 vim.keymap.set('n', '<C-Up>', '<C-w>k', opts) -- Move to the upper split
@@ -89,6 +93,7 @@ vim.api.nvim_set_keymap('n', '<C-Esc>', ':ToggleTerm<CR>', opts) -- Toggle termi
 vim.api.nvim_set_keymap('t', '<C-Esc>', '<Cmd>ToggleTerm<CR>', opts)
 vim.api.nvim_set_keymap('t', '<C-Up>', '<Cmd>wincmd k<CR>', opts) -- Move terminal focus up
 vim.api.nvim_set_keymap('t', '<C-Down>', '<Cmd>wincmd j<CR>', opts) -- Move terminal focus down
+vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]], { noremap = true, silent = true, desc = 'Exit terminal mode with Esc' })
 
 -- Moving between buffers
 vim.api.nvim_set_keymap('n', '<A-Right>', ':bnext<CR>', opts)
@@ -101,6 +106,9 @@ vim.keymap.set('v', '<A-Down>', ":m '>+1<CR>gv=gv", opts)
 -- Visual mode quick navigation
 vim.keymap.set('v', '<leader><Up>', '0k', opts)
 vim.keymap.set('v', '<leader><Down>', '0j', opts)
+
+vim.keymap.set('x', '<leader><Up>', '0k', opts)
+vim.keymap.set('x', '<leader><Down>', '0j', opts)
 
 -- Visual mode bracket navigation
 vim.api.nvim_set_keymap('v', '<S-Up>', '{', opts)

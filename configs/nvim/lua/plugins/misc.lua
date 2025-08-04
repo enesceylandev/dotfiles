@@ -13,7 +13,7 @@ return {
   },
   {
     'folke/todo-comments.nvim',
-    evene = 'VimEnter',
+    event = 'VimEnter',
     dependencies = { 'nvim-lua/plenary.nvim' },
     opts = { signs = false },
   },
@@ -26,40 +26,59 @@ return {
   {
     'folke/flash.nvim',
     event = 'VeryLazy',
-    ---@type Flash.Config
     opts = {},
-    -- stylua: ignore
     keys = {
       { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end,       desc = "Flash" },
       { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
-      -- { "r",     mode = "o",               function() require("flash").remote() end,            desc = "Remote Flash" },
-      -- { "R",     mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-      -- { "<c-s>", mode = { "c" },           function() require("flash").toggle() end,            desc = "Toggle Flash Search" },
     },
   },
-  -- {
-  --   'folke/noice.nvim',
-  --   event = 'VeryLazy',
-  --   opts = {
-  --     -- add any options here
-  --   },
-  --   dependencies = {
-  --     -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-  --     'MunifTanjim/nui.nvim',
-  --     -- OPTIONAL:
-  --     --   `nvim-notify` is only needed, if you want to use the notification view.
-  --     --   If not available, we use `mini` as the fallback
-  --     -- 'rcarriga/nvim-notify',
-  --   },
-  -- },
+  {
+    'numToStr/Comment.nvim',
+    event = "VeryLazy",
+    dependencies = {
+      'JoosepAlviste/nvim-ts-context-commentstring',
+    },
+    config = function()
+      require('ts_context_commentstring').setup({
+        -- opsiyonel config, çoğu durumda default yeterli
+        enable_autocmd = false,
+      })
+
+      require('Comment').setup({
+        pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
+      })
+    end,
+  },
+  {
+      'lukas-reineke/indent-blankline.nvim',
+      main = 'ibl',
+      opts = {
+          indent = {
+              char = '▏',
+          },
+          scope = {
+              show_start = false,
+              show_end = false,
+              show_exact_scope = false,
+          },
+          exclude = {
+              filetypes = {
+                  'help',
+                  'startify',
+                  'dashboard',
+                  'packer',
+                  'neogitstatus',
+                  'NvimTree',
+                  'Trouble',
+              },
+          },
+      },
+  },
   { 'rafamadriz/friendly-snippets' },
   {
     'MeanderingProgrammer/render-markdown.nvim',
-    dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
-    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
-    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
-    ---@module 'render-markdown'
-    ---@type render.md.UserConfig
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' },
     opts = {},
   },
 }
+

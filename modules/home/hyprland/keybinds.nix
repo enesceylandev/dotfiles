@@ -12,7 +12,8 @@
     "$mainMod SHIFT, Q, exec, $terminal btop"
     "$mainMod, C, killactive, "
     "$mainMod, V, togglefloating,"
-    "$mainMod, E, exec, $terminal yazi "
+    "$mainMod, E, exec, $terminal yazi"
+    "$mainMod control, E, exec, nemo"
     "$mainMod, F, fullscreen"
     "$mainMod, Escape, exec, rofi -show drun"
     "$mainMod, P, pseudo" # dwindle
@@ -25,7 +26,7 @@
     "$mainMod SHIFT, n, exec, $terminal ~/.dotfiles/modules/home/hyprland/scripts/fn.sh" 
     "$mainMod control, n, exec, $terminal ~/.dotfiles/modules/home/hyprland/scripts/open_quicknote.sh"
     "$mainMod SHIFT, E, exec, $terminal ncdu"
-    "$mainMod, g, exec, $terminal $browser --new-window https://github.com/MedusaCollins"
+    "$mainMod, g, exec, $terminal $browser --new-window https://github.com/enesceylandev"
     "$mainMod, w, exec, $terminal $browser --new-window https://web.whatsapp.com/"
     "$mainMod SHIFT, c, exec, $terminal $browser --new-window https://chatgpt.com/"
     "$mainMod, m, exec, $terminal $browser --new-window https://cloud.mongodb.com/v2/670408777918f42d2c7f2da3#/metrics/replicaSet/6704090f28fdba0104dec6da/explorer/Users/accounts/find "
@@ -82,7 +83,7 @@
     "$mainMod SHIFT, down, movewindow, d"
 
     "$mainMod SHIFT, S, exec, grim -g \"$(slurp)\" - | wl-copy"
-    "$mainMod control, S, exec, grim -g \"$(slurp)\" - | wl-copy && wl-paste > ~/Documents/notes/media/Screenshot-$(date +%F_%T).png "
+    "$mainMod control, S, exec, grim -g \"$(slurp)\" - | wl-copy && wl-paste > ~/Pictures/media/Screenshot-$(date +%F_%T).png "
     ];
 
     # Move/resize windows with mainMod + LMB/RMB and dragging

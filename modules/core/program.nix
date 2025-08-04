@@ -8,4 +8,8 @@
       xwayland.enable = true;
     };
   };
+
+  environment.variables = {
+    EDITOR = "nvim";
+  };
 }

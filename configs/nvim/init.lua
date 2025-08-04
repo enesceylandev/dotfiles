@@ -24,7 +24,10 @@ require('lazy').setup({
   require 'plugins.toggleTerm',
   require 'plugins.indentBlankline',
   require 'plugins.misc',
+  require 'plugins.yazi',
   -- require 'plugins.harpoon',
+
+  require 'plugins.tsAutotag',
   require 'plugins.treesitter',
 
   require 'plugins.neotree',
@@ -33,7 +36,6 @@ require('lazy').setup({
 
   require 'plugins.colorTheme',
 
-  -- require 'plugins.tsAutotag',
   -- require 'plugins.lualine',
   -- require 'plugins.chatgpt',
   -- require 'plugins.persistence',

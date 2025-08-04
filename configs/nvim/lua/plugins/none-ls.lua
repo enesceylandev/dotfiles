@@ -18,7 +18,7 @@ return {
         'prettier', -- ts/js formatter
         'stylua',   -- lua formatter
         'eslint_d', -- ts/js linter
-        'shfmt',
+        -- 'shfmt',
       },
       -- auto-install configured formatters & linters (with null-ls)
       automatic_installation = true,
@@ -26,9 +26,19 @@ return {
 
     local sources = {
       diagnostics.checkmake,
-      formatting.prettier,
+      formatting.prettier.with {
+        extra_args = {
+          "--tab-width", "2",
+          "--use-tabs", "false",           -- boşluk kullan
+          "--single-quote", "false",       -- çift tırnak ("") kullan
+          "--trailing-comma", "es5",       -- sadece objelerde ve dizilerde virgül
+          "--print-width", "80",           -- satır uzunluğu
+          "--bracket-spacing", "true",     -- objelerde boşluk: { foo: bar }
+          "--arrow-parens", "avoid",       -- tek argümanlı arrow fonksiyonda parens olmasın
+          "--end-of-line", "lf"            -- unix-style satır sonu
+        },
+      },
       formatting.stylua,
-      formatting.shfmt.with { args = { '-i', '2' } },
     }
 
     local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
@@ -37,18 +47,28 @@ return {
       sources = sources,
       -- you can reuse a shared lspconfig on_attach callback here
       on_attach = function(client, bufnr)
-        if client.supports_method 'textDocument/formatting' then
+        -- Yalnızca null-ls formatlama yapabilsin
+        if client.name == "tsserver" or client.name == "eslint" then
+          client.server_capabilities.documentFormattingProvider = false
+        end
+
+        if client.supports_method("textDocument/formatting") then
           vim.api.nvim_clear_autocmds { group = augroup, buffer = bufnr }
-          vim.api.nvim_create_autocmd('BufWritePre', {
+          vim.api.nvim_create_autocmd("BufWritePre", {
             group = augroup,
             buffer = bufnr,
             callback = function()
-              -- Asynchronous formatting
-              vim.lsp.buf.format { async = true }
+              vim.lsp.buf.format {
+                async = true,
+                filter = function(format_client)
+                  -- SADECE null-ls formatlama yapsın
+                  return format_client.name == "null-ls"
+                end,
+              }
             end,
           })
         end
-      end,
+      end
     }
   end,
 } -- Format on save and linters

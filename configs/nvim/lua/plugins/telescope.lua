@@ -71,6 +71,7 @@ return {
     pcall(require('telescope').load_extension, 'fzf')
     pcall(require('telescope').load_extension, 'ui-select')
 
+    vim.keymap.set('n', '<leader>m', builtin.marks, { desc = 'find [M]ark' })
     vim.keymap.set('n', '<leader>f', builtin.live_grep, { desc = '[f]ind keyword' })
     vim.keymap.set('n', '<leader>F', builtin.find_files, { desc = '[F]ind files' })
     vim.keymap.set('n', '<leader>?', builtin.oldfiles, { desc = '[?] Find recently opened files' })
@@ -83,7 +84,7 @@ return {
     vim.keymap.set('n', '<leader>gs', builtin.git_status, { desc = 'Search [G]it [S]tatus (diff view)' })
     vim.keymap.set('n', '<leader>s/', builtin.grep_string, { desc = 'Search any string' })
     -- vim.keymap.set('n', '<leader>h', builtin.help_tags, { desc = '[S]earch [H]elp' })
-    -- vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
+    vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
     vim.keymap.set('n', '<leader>sf', function()
       builtin.lsp_document_symbols {
         symbols = { 'Class', 'Function', 'Method', 'Constructor', 'Interface', 'Module', 'Property' },
