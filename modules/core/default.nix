@@ -23,6 +23,7 @@
      fzf
      nemo
      docker-compose
+     supabase-cli
   ];
 
   virtualisation.docker.enable = true;
