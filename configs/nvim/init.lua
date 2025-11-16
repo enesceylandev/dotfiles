@@ -11,19 +11,20 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require('lazy').setup({
+require('lazy').setup {
   require 'plugins.autocompilation',
   require 'plugins.bufferline',
   require 'plugins.gitblame',
   require 'plugins.gitsigns',
   require 'plugins.lspConfig',
+  require 'plugins.typescript',
   require 'plugins.nvim-surround',
   require 'plugins.nvimUfo',
   require 'plugins.none-ls',
   require 'plugins.supermaven',
   require 'plugins.toggleTerm',
   require 'plugins.misc',
-  require 'plugins.yazi',
+  -- require 'plugins.yazi',
   -- require 'plugins.harpoon',
 
   require 'plugins.tsAutotag',
@@ -38,4 +39,4 @@ require('lazy').setup({
   -- require 'plugins.lualine',
   -- require 'plugins.chatgpt',
   -- require 'plugins.persistence',
-})
+}

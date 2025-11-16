@@ -68,14 +68,40 @@ return {
     local opts = { noremap = true, silent = true, desc = 'Go to Buffer' }
     vim.keymap.set('n', '<Tab>', '<Cmd>BufferLineCycleNext<CR>', {})
     vim.keymap.set('n', '<S-Tab>', '<Cmd>BufferLineCyclePrev<CR>', {})
-    vim.keymap.set('n', '<C-1>', "<cmd>lua require('bufferline').go_to_buffer(1)<CR>", opts)
-    vim.keymap.set('n', '<C-2>', "<cmd>lua require('bufferline').go_to_buffer(2)<CR>", opts)
-    vim.keymap.set('n', '<C-3>', "<cmd>lua require('bufferline').go_to_buffer(3)<CR>", opts)
-    vim.keymap.set('n', '<C-4>', "<cmd>lua require('bufferline').go_to_buffer(4)<CR>", opts)
-    vim.keymap.set('n', '<C-5>', "<cmd>lua require('bufferline').go_to_buffer(5)<CR>", opts)
-    vim.keymap.set('n', '<C-6>', "<cmd>lua require('bufferline').go_to_buffer(6)<CR>", opts)
-    vim.keymap.set('n', '<C-7>', "<cmd>lua require('bufferline').go_to_buffer(7)<CR>", opts)
-    vim.keymap.set('n', '<C-8>', "<cmd>lua require('bufferline').go_to_buffer(8)<CR>", opts)
-    vim.keymap.set('n', '<C-9>', "<cmd>lua require('bufferline').go_to_buffer(9)<CR>", opts)
+
+    -- Command + 1-9 to switch between buffers
+    vim.keymap.set('n', '<D-1>', "<cmd>lua require('bufferline').go_to_buffer(1, true)<CR>", opts)
+    vim.keymap.set('n', '<D-2>', "<cmd>lua require('bufferline').go_to_buffer(2, true)<CR>", opts)
+    vim.keymap.set('n', '<D-3>', "<cmd>lua require('bufferline').go_to_buffer(3, true)<CR>", opts)
+    vim.keymap.set('n', '<D-4>', "<cmd>lua require('bufferline').go_to_buffer(4, true)<CR>", opts)
+    vim.keymap.set('n', '<D-5>', "<cmd>lua require('bufferline').go_to_buffer(5, true)<CR>", opts)
+    vim.keymap.set('n', '<D-6>', "<cmd>lua require('bufferline').go_to_buffer(6, true)<CR>", opts)
+    vim.keymap.set('n', '<D-7>', "<cmd>lua require('bufferline').go_to_buffer(7, true)<CR>", opts)
+    vim.keymap.set('n', '<D-8>', "<cmd>lua require('bufferline').go_to_buffer(8, true)<CR>", opts)
+    vim.keymap.set('n', '<D-9>', "<cmd>lua require('bufferline').go_to_buffer(9, true)<CR>", opts)
+
+    -- Close buffers to the right
+    vim.keymap.set('n', '<leader>bl', function()
+      local current_buf = vim.fn.bufnr('%')
+      local bufs = vim.fn.getbufinfo({ buflisted = 1 })
+
+      for _, buf in ipairs(bufs) do
+        if buf.bufnr > current_buf then
+          vim.cmd('bdelete! ' .. buf.bufnr)
+        end
+      end
+    end, { noremap = true, silent = true, desc = 'Close buffers to the right' })
+
+    -- Close buffers to the left
+    vim.keymap.set('n', '<leader>br', function()
+      local current_buf = vim.fn.bufnr('%')
+      local bufs = vim.fn.getbufinfo({ buflisted = 1 })
+
+      for _, buf in ipairs(bufs) do
+        if buf.bufnr < current_buf then
+          vim.cmd('bdelete! ' .. buf.bufnr)
+        end
+      end
+    end, { noremap = true, silent = true, desc = 'Close buffers to the left' })
   end,
 }

@@ -26,18 +26,7 @@ return {
 
     local sources = {
       diagnostics.checkmake,
-      formatting.prettier.with {
-        extra_args = {
-          "--tab-width", "2",
-          "--use-tabs", "false",           -- boşluk kullan
-          "--single-quote", "false",       -- çift tırnak ("") kullan
-          "--trailing-comma", "es5",       -- sadece objelerde ve dizilerde virgül
-          "--print-width", "80",           -- satır uzunluğu
-          "--bracket-spacing", "true",     -- objelerde boşluk: { foo: bar }
-          "--arrow-parens", "avoid",       -- tek argümanlı arrow fonksiyonda parens olmasın
-          "--end-of-line", "lf"            -- unix-style satır sonu
-        },
-      },
+      formatting.prettier,
       formatting.stylua,
     }
 

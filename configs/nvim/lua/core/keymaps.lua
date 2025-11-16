@@ -2,116 +2,105 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
--- Disable spacebar's default behavior in normal and visual modes
-vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
-
 local opts = { noremap = true, silent = true }
+
+-- Disable space default behavior
+vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', opts)
 
 -- File operations
 vim.keymap.set('n', '<C-s>', '<cmd>w<CR>', opts) -- Save
+vim.keymap.set('n', '<D-s>', '<cmd>w<CR>', opts) -- Save with Command + S
 vim.keymap.set('n', '<leader>sn', '<cmd>q<CR>', opts) -- Quit
 
 -- Text manipulation
-vim.keymap.set('n', 'x', '"_x', opts) -- Delete without yanking
-vim.keymap.set('v', 'p', '"_dP', opts) -- Paste while keeping last yanked
+vim.keymap.set('n', 'x', '"_x', opts)
+vim.keymap.set('v', 'p', '"_dP', opts)
 
--- Search and center
+-- Search & center
 vim.keymap.set('n', 'n', 'Nzzzv', opts)
 vim.keymap.set('n', 'N', 'nzzzv', opts)
 
--- Buffer navigation
-vim.keymap.set('n', '<Tab>', ':bnext<CR>', opts) -- Next buffer
-vim.keymap.set('n', '<S-Tab>', ':bprevious<CR>', opts) -- Previous buffer
-vim.keymap.set('n', '<C-w>', ':Bdelete!<CR>', opts) -- Close buffer
-vim.keymap.set('n', '<leader>br', ':BufferLineCloseLeft<CR>', opts) -- Close buffer to the left
-vim.keymap.set('n', '<leader>bl', ':BufferLineCloseRight<CR>', opts) -- Close buffer to the right
+-- Buffer navigation (Ctrl + Tab is safer than Option)
+vim.keymap.set('n', '<C-w>', ':Bdelete!<CR>', opts)
 
 -- Split windows
-vim.keymap.set('n', '<leader>sv', '<C-w>v', { noremap = true, silent = true, desc = '[S]plit vertical' }) -- Vertical split
-vim.keymap.set('n', '<leader>sh', '<C-w>s', { noremap = true, silent = true, desc = '[S]plit horizontal' }) -- Horizontal split
-vim.keymap.set('n', '<leader>se', '<C-w>=', { noremap = true, silent = true, desc = '[S]plit Equlizer' })    -- Equalize splits
-vim.keymap.set('n', '<leader>w', ':close<CR>', { noremap = true, silent = true, desc = 'Close the window' }) -- Close window
-vim.keymap.set('n', '<C-M-Left>', ':vertical resize -5<CR>', { desc = 'Shrink horizontally' })
-vim.keymap.set('n', '<C-M-Right>', ':vertical resize +5<CR>', { desc = 'Grow horizontally' })
-vim.keymap.set('n', '<C-M-Up>', ':resize -5<CR>', { desc = 'Grow vertically' })
-vim.keymap.set('n', '<C-M-Down>', ':resize +5<CR>', { desc = 'Shrink vertically' })
+vim.keymap.set('n', '<leader>sv', '<C-w>v', opts)
+vim.keymap.set('n', '<leader>sh', '<C-w>s', opts)
+vim.keymap.set('n', '<leader>se', '<C-w>=', opts)
+vim.keymap.set('n', '<leader>w', ':close<CR>', opts)
 
--- Window navigation
-vim.keymap.set('n', '<C-Up>', '<C-w>k', opts) -- Move to the upper split
-vim.keymap.set('n', '<C-Down>', '<C-w>j', opts) -- Move to the lower split
-vim.keymap.set('n', '<C-Left>', '<C-w>h', opts) -- Move to the left split
-vim.keymap.set('n', '<C-Right>', '<C-w>l', opts) -- Move to the right split
+-- Window navigation (Command + Arrow keys for Kitty terminal)
+vim.keymap.set('n', '<D-Left>', '<C-w>h', opts)
+vim.keymap.set('n', '<D-Down>', '<C-w>j', opts)
+vim.keymap.set('n', '<D-Up>', '<C-w>k', opts)
+vim.keymap.set('n', '<D-Right>', '<C-w>l', opts)
 
--- Stay in indent mode in visual mode
-vim.keymap.set('v', '<', '<gv', opts)
-vim.keymap.set('v', '>', '>gv', opts)
+-- Also keep Space + hjkl as fallback
+vim.keymap.set('n', '<leader>h', '<C-w>h', opts)
+vim.keymap.set('n', '<leader>j', '<C-w>j', opts)
+vim.keymap.set('n', '<leader>k', '<C-w>k', opts)
+vim.keymap.set('n', '<leader>l', '<C-w>l', opts)
 
--- Diagnostic keymaps
--- vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
--- vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
--- vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
--- vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
+-- Window resizing (Shift + Command + Arrow keys)
+vim.keymap.set('n', '<D-S-Left>', ':vertical resize -5<CR>', opts)
+vim.keymap.set('n', '<D-S-Right>', ':vertical resize +5<CR>', opts)
+vim.keymap.set('n', '<D-S-Up>', ':resize -5<CR>', opts)
+vim.keymap.set('n', '<D-S-Down>', ':resize +5<CR>', opts)
 
--- Insert mode enhancements
-vim.keymap.set('i', '<C-H>', '<C-w>', { desc = 'Delete word backward in insert mode' })
-vim.keymap.set('i', '<C-Enter>', '<Esc>o', { desc = 'Insert newline below and return to insert mode' })
-vim.keymap.set('i', '<C-v>', '<Esc>"+pa', opts) -- Paste from system clipboard
-vim.keymap.set('i', '<C-z>', '<cmd>u<CR>', opts) -- Undo in insert mode
-vim.keymap.set('i', '<C-BS>', '<C-w>', { desc = 'Delete word backward in insert mode' })
-vim.keymap.set('i', '<C-s>', '<cmd>w<CR>', { desc = 'Save changes in insert mode' })
+-- Terminal window resizing
+vim.keymap.set('t', '<D-S-Left>', '<Cmd>vertical resize -5<CR>', opts)
+vim.keymap.set('t', '<D-S-Right>', '<Cmd>vertical resize +5<CR>', opts)
+vim.keymap.set('t', '<D-S-Up>', '<Cmd>resize -5<CR>', opts)
+vim.keymap.set('t', '<D-S-Down>', '<Cmd>resize +5<CR>', opts)
 
--- Normal mode enhancements
-vim.keymap.set('n', '<C-z>', '<cmd>undo<CR>', opts) -- Undo
-vim.keymap.set('n', '<C-w>', '<cmd>bd<CR>', opts) -- Close buffer
-vim.keymap.set('n', '<C-a>', 'ggVG', { desc = 'Select all content' }) -- Select all
-vim.keymap.set('n', 'j', [[v:count?'j':'gj']], { noremap = true, expr = true, desc = 'Move cursor down' })
-vim.keymap.set('n', 'k', [[v:count?'k':'gk']], { noremap = true, expr = true, desc = 'Move cursor up' })
-vim.keymap.set('n', '<leader>nh', ':nohl<CR>', { noremap = true, silent = true, desc = 'Clear search highlights' })
-vim.keymap.set('n', '<Esc>', ':noh<CR><Esc>', { noremap = true, silent = true })
-vim.keymap.set('n', '<leader>nd', '<cmd>NoiceDismiss<CR>', { desc = 'Dismiss Noice notifications' })
-vim.keymap.set('n', '<S-Up>', '{', { noremap = true, silent = true })
-vim.keymap.set('n', '<S-Down>', '}', { noremap = true, silent = true })
-vim.keymap.set('n', 'd<S-Up>', 'd{', { noremap = true, silent = true })
-vim.keymap.set('n', 'd<S-Down>', 'd}', { noremap = true, silent = true })
+-- Fallback: Space + arrow keys for resizing
+vim.keymap.set('n', '<leader><M-Left>', ':vertical resize -5<CR>', opts)
+vim.keymap.set('n', '<leader><M-Right>', ':vertical resize +5<CR>', opts)
+vim.keymap.set('n', '<leader><M-Up>', ':resize -5<CR>', opts)
+vim.keymap.set('n', '<leader><M-Down>', ':resize +5<CR>', opts)
+
+-- Move lines (Shift + Option + Arrow)
+vim.keymap.set('n', '<M-S-Up>', ':m .-2<CR>==', opts)
+vim.keymap.set('n', '<M-S-Down>', ':m .+1<CR>==', opts)
+vim.keymap.set('v', '<M-S-Up>', ":m '<-2<CR>gv=gv", opts)
+vim.keymap.set('v', '<M-S-Down>', ":m '>+1<CR>gv=gv", opts)
+
+-- Jump to blocks with Shift + Up/Down
+vim.keymap.set('n', '<S-Up>', '{', opts) -- Jump to opening brace
+vim.keymap.set('n', '<S-Down>', '}', opts) -- Jump to closing brace
+vim.keymap.set('v', '<S-Up>', '{', opts) -- Jump to opening brace (visual mode)
+vim.keymap.set('v', '<S-Down>', '}', opts) -- Jump to closing brace (visual mode)
 
 -- Quick navigation within file
-vim.keymap.set('n', '<leader><Up>', '0k', opts) -- Move to the beginning of the previous line
-vim.keymap.set('n', '<leader><Down>', '0j', opts) -- Move to the beginning of the next line
-
--- Move lines
-vim.keymap.set('n', '<A-Up>', ':m .-2<CR>==', opts) -- Move current line up
-vim.keymap.set('n', '<A-Down>', ':m .+1<CR>==', opts) -- Move current line down
-
--- Search and replace shortcuts
-vim.api.nvim_set_keymap('n', '<C-g>', ':s/', { noremap = true }) -- Search and replace
-vim.api.nvim_set_keymap('v', '<C-g>', ':s/', { noremap = true }) -- Search and replace
-vim.api.nvim_set_keymap('n', '<C-f>', '/', { noremap = true }) -- Search
-vim.api.nvim_set_keymap('n', '<C-d>', '#', { noremap = true, silent = true }) -- Find previous occurrence
-
--- Terminal toggles and movement
-vim.api.nvim_set_keymap('n', '<C-Esc>', ':ToggleTerm<CR>', opts) -- Toggle terminal
-vim.api.nvim_set_keymap('t', '<C-Esc>', '<Cmd>ToggleTerm<CR>', opts)
-vim.api.nvim_set_keymap('t', '<C-Up>', '<Cmd>wincmd k<CR>', opts) -- Move terminal focus up
-vim.api.nvim_set_keymap('t', '<C-Down>', '<Cmd>wincmd j<CR>', opts) -- Move terminal focus down
-vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]], { noremap = true, silent = true, desc = 'Exit terminal mode with Esc' })
-
--- Moving between buffers
-vim.api.nvim_set_keymap('n', '<A-Right>', ':bnext<CR>', opts)
-vim.api.nvim_set_keymap('n', '<A-Left>', ':bprev<CR>', opts)
-
--- Visual mode move lines
-vim.keymap.set('v', '<A-Up>', ":m '<-2<CR>gv=gv", opts)
-vim.keymap.set('v', '<A-Down>', ":m '>+1<CR>gv=gv", opts)
-
--- Visual mode quick navigation
+vim.keymap.set('n', '<leader><Up>', '0k', opts)
+vim.keymap.set('n', '<leader><Down>', '0j', opts)
 vim.keymap.set('v', '<leader><Up>', '0k', opts)
 vim.keymap.set('v', '<leader><Down>', '0j', opts)
 
-vim.keymap.set('x', '<leader><Up>', '0k', opts)
-vim.keymap.set('x', '<leader><Down>', '0j', opts)
+-- Search and replace
+vim.keymap.set('n', '<C-g>', ':s/', opts)
+vim.keymap.set('v', '<C-g>', ':s/', opts)
+vim.keymap.set('n', '<C-f>', '/', opts)
+vim.keymap.set('n', '<C-d>', '#', opts)
 
--- Visual mode bracket navigation
-vim.api.nvim_set_keymap('v', '<S-Up>', '{', opts)
-vim.api.nvim_set_keymap('v', '<S-Down>', '}', opts)
-vim.api.nvim_set_keymap('v', 'd<S-Up>', 'd{', opts)
-vim.api.nvim_set_keymap('v', 'd<S-Down>', 'd}', opts)
+-- Clear search highlight
+vim.keymap.set('n', '<leader>n', ':nohlsearch<CR>', opts)
+vim.keymap.set('n', '<Esc>', ':nohlsearch<CR>', opts)
+
+-- Terminal toggles and movement
+vim.keymap.set('n', '<C-Esc>', ':ToggleTerm<CR>', opts)
+vim.keymap.set('t', '<C-Esc>', '<Cmd>ToggleTerm<CR>', opts)
+
+-- Terminal window navigation with Command + Arrow keys
+vim.keymap.set('t', '<D-Left>', '<Cmd>wincmd h<CR>', opts)
+vim.keymap.set('t', '<D-Down>', '<Cmd>wincmd j<CR>', opts)
+vim.keymap.set('t', '<D-Up>', '<Cmd>wincmd k<CR>', opts)
+vim.keymap.set('t', '<D-Right>', '<Cmd>wincmd l<CR>', opts)
+
+-- Fallback: Ctrl + hjkl for terminal navigation
+vim.keymap.set('t', '<C-j>', '<Cmd>wincmd j<CR>', opts)
+vim.keymap.set('t', '<C-k>', '<Cmd>wincmd k<CR>', opts)
+vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]], opts)
+
+-- Buffer navigation (Tab and Shift+Tab are used instead)
+-- Use <Tab> and <S-Tab> defined above (lines 23-24)
