@@ -1,0 +1,5 @@
+[user]
+	name = Enes Ceylan
+	email = contact@enesceylan.dev
+[push]
+	autoSetupRemote = true
