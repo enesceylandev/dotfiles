@@ -76,6 +76,8 @@ export LSCOLORS='ExGxBxDxCxEgEdxbxgxcxd'
 bindkey -v  # vi key bindings
 bindkey '^[[A' history-search-backward
 bindkey '^[[B' history-search-forward
+bindkey '^[[3;3~' delete-char
+bindkey '^[^?' backward-kill-word
 
 # ============================================================================
 # Android SDK
