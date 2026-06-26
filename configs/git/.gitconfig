@@ -2,4 +2,8 @@
 	name = Enes Ceylan
 	email = contact@enesceylan.dev
 [push]
-	autoSetupRemote = true
+	default = upstream
+[pull]
+	ff = false
+	merge = false
+	rebase = true

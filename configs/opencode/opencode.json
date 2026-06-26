@@ -1,28 +1,19 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "command": {},
-  "plugin": [
-    "background"
-  ],
-  "provider": {
-    "lmstudio": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "LM Studio (local)",
-      "options": {
-        "baseURL": "http://localhost:1234/v1"
-      },
-      "models": {
-        "openai/gpt-oss-20b": {
-          "name": "openai/gpt-oss-20b"
-        },
-        "liquid/lfm2.5-1.2b": {
-          "name": "liquid/lfm2.5-1.2b"
-        },
-        "qwen/qwen3-coder-30b": {
-          "name": "qwen/qwen3-coder-30b"
-        },
-        "zai-org/glm-4.7-flash": {
-          "name": "zai-org/glm-4.7-flash"
+  "agent": {
+    "yolo": {
+      "description": "Full-permission primary agent, skips all approval prompts",
+      "mode": "primary",
+      "color": "error",
+      "permission": {
+        "*": "allow",
+        "bash": {
+          "*": "allow",
+          "rm -rf /": "deny",
+          "rm -rf ~": "deny",
+          "rm -rf /*": "deny",
+          "rm -rf ~/*": "deny",
+          "rm -rf *": "deny"
         }
       }
     }

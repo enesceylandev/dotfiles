@@ -1,119 +1,100 @@
-# Zsh Configuration
-# Minimal, fast, and clean setup
+# If you come from bash you might have to change your $PATH.
+# export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
-# ============================================================================
-# History Configuration
-# ============================================================================
-HISTFILE=~/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
-setopt HIST_IGNORE_DUPS
-setopt HIST_IGNORE_ALL_DUPS
-setopt SHARE_HISTORY
-setopt INC_APPEND_HISTORY
+# Path to your Oh My Zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
 
-# ============================================================================
-# Zsh Options
-# ============================================================================
-setopt AUTO_CD              # cd into directory by typing its name
-setopt EXTENDED_GLOB        # extended globbing
-setopt NOMATCH              # error on non-matching patterns
-setopt NOTIFY               # report background job status immediately
-setopt PROMPT_SUBST         # enable prompt variable substitution
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time Oh My Zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ZSH_THEME="fishy"
 
-# ============================================================================
-# Completion System
-# ============================================================================
-autoload -Uz compinit
-compinit
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in $ZSH/themes/
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
-# Completion styles
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' # case-insensitive
-zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
-zstyle ':completion:*' menu select
-zstyle ':completion:*' completer _expand _complete _correct _approximate
-zstyle ':completion:*:*:*:*:descriptions' format '%F{blue}-- %d --%f'
+# Uncomment the following line to use case-sensitive completion.
+# CASE_SENSITIVE="true"
 
-# ============================================================================
-# Plugins
-# ============================================================================
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
 
-# zsh-autosuggestions
-source ~/.dotfiles/configs/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-ZSH_AUTOSUGGEST_STRATEGY=(history completion)
-ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
-bindkey '^n' autosuggest-accept
+# Uncomment one of the following lines to change the auto-update behavior
+# zstyle ':omz:update' mode disabled  # disable automatic updates
+# zstyle ':omz:update' mode auto      # update automatically without asking
+# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 
-# zsh-syntax-highlighting (must be sourced last)
-source ~/.dotfiles/configs/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# Uncomment the following line to change how often to auto-update (in days).
+# zstyle ':omz:update' frequency 13
 
-# ============================================================================
-# Prompt
-# ============================================================================
-PROMPT='%F{cyan}%n%f@%F{green}%m%f:%F{blue}%~%f %F{yellow}❯%f '
-RPROMPT='$(git rev-parse --abbrev-ref HEAD 2>/dev/null | sed "s/^/%F{magenta}(/" | sed "s/$/)%f/")'
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS="true"
 
-# ============================================================================
-# Aliases
-# ============================================================================
-alias ls='ls -G'
-alias la='ls -Ga'
-alias ll='ls -lG'
-alias lla='ls -laG'
-alias cd..='cd ..'
-alias grep='grep --color=auto'
+# Uncomment the following line to disable colors in ls.
+# DISABLE_LS_COLORS="true"
 
-# ============================================================================
-# Environment Variables
-# ============================================================================
-export CLICOLOR=1
-export CLICOLOR_FORCE=1
-export LSCOLORS='ExGxBxDxCxEgEdxbxgxcxd'
+# Uncomment the following line to disable auto-setting terminal title.
+# DISABLE_AUTO_TITLE="true"
 
-# ============================================================================
-# Key Bindings
-# ============================================================================
-bindkey -v  # vi key bindings
-bindkey '^[[A' history-search-backward
-bindkey '^[[B' history-search-forward
-bindkey '^[[3;3~' delete-char
-bindkey '^[^?' backward-kill-word
+# Uncomment the following line to enable command auto-correction.
+# ENABLE_CORRECTION="true"
 
-# ============================================================================
-# Android SDK
-# ============================================================================
-export ANDROID_HOME=$HOME/Library/Android/sdk
-export PATH=$PATH:$ANDROID_HOME/emulator
-export PATH=$PATH:$ANDROID_HOME/platform-tools
+# Uncomment the following line to display red dots whilst waiting for completion.
+# You can also set it to another string to have that shown instead of the default red dots.
+# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
+# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
+# COMPLETION_WAITING_DOTS="true"
 
-# ============================================================================
-# Java Development Kit
-# ============================================================================
-if java_home=$(/usr/libexec/java_home -v 17 2>/dev/null); then
-  export JAVA_HOME="$java_home"
-  export PATH="$JAVA_HOME/bin:$PATH"
-fi
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
 
-# ============================================================================
-# Tmux
-# ============================================================================
-if command -v tmux >/dev/null 2>&1; then
-  if [ -z "$TMUX" ]; then
-    tmux new-session -A -s main
-  fi
-fi
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
+# HIST_STAMPS="mm/dd/yyyy"
 
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:$HOME/.lmstudio/bin"
-# End of LM Studio CLI section
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
 
-export EDITOR=nvim
-export PATH="$HOME/.local/bin:$PATH"
+# Which plugins would you like to load?
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(git)
 
-# bun completions
-[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+source $ZSH/oh-my-zsh.sh
 
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/enes/.lmstudio/bin"
-# End of LM Studio CLI section
+# User configuration
 
+# export MANPATH="/usr/local/man:$MANPATH"
+
+# You may need to manually set your language environment
+# export LANG=en_US.UTF-8
+
+export EDITOR='nvim-opencode'
+
+# Compilation flags
+# export ARCHFLAGS="-arch $(uname -m)"
+
+# Set personal aliases, overriding those provided by Oh My Zsh libs,
+# plugins, and themes. Aliases can be placed here, though Oh My Zsh
+# users are encouraged to define aliases within a top-level file in
+# the $ZSH_CUSTOM folder, with .zsh extension. Examples:
+# - $ZSH_CUSTOM/aliases.zsh
+# - $ZSH_CUSTOM/macos.zsh
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+export PATH="$HOME/.bun/bin:$PATH"

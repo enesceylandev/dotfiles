@@ -26,6 +26,7 @@ return {
 
     require('telescope').setup {
       defaults = {
+        file_ignore_patterns = { 'node_modules', '.git/', '.venv', 'dist/', 'build/', '.next/', '.turbo/' },
         mappings = {
           i = {
             ['<C-k>'] = actions.move_selection_previous, -- move to prev result
@@ -36,8 +37,8 @@ return {
       },
       pickers = {
         find_files = {
-          file_ignore_patterns = { 'node_modules', '.git', '.venv' },
           hidden = true,
+          no_ignore_parent = true,
         },
         buffers = {
           mappings = {
@@ -51,9 +52,8 @@ return {
         },
       },
       live_grep = {
-        file_ignore_patterns = { 'node_modules', '.git', '.venv' },
         additional_args = function(_)
-          return { '--hidden' }
+          return { '--hidden', '--no-ignore-parent' }
         end,
       },
       path_display = 'filename_first',
@@ -84,12 +84,21 @@ return {
     vim.keymap.set('n', '<leader>gs', builtin.git_status, { desc = 'Search [G]it [S]tatus (diff view)' })
     vim.keymap.set('n', '<leader>s/', builtin.grep_string, { desc = 'Search any string' })
     -- vim.keymap.set('n', '<leader>h', builtin.help_tags, { desc = '[S]earch [H]elp' })
+    vim.keymap.set('n', '<leader>se', function()
+      require('telescope.builtin').find_files {
+        hidden = true,
+        no_ignore = true,
+        search_file = '.env',
+      }
+    end, { desc = 'Find .env (ignore gitignore)' })
     vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
-    vim.keymap.set('n', '<leader>sf', function()
+    vim.keymap.set('n', '<leader>sf', builtin.live_grep, { desc = '[S]earch [f]ind text' })
+    vim.keymap.set('n', '<leader>sF', builtin.find_files, { desc = '[S]earch [F]ind files' })
+    vim.keymap.set('n', '<leader>sy', function()
       builtin.lsp_document_symbols {
         symbols = { 'Class', 'Function', 'Method', 'Constructor', 'Interface', 'Module', 'Property' },
       }
-    end, { desc = '[S]each [f]unctions' })
+    end, { desc = '[S]earch s[y]mbols' })
     vim.keymap.set('n', '<leader><leader>', builtin.find_files, { desc = '[ ] Find existing buffers' })
     -- vim.keymap.set('n', '<leader>s/', function()
     --   builtin.live_grep {
