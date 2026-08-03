@@ -1,0 +1,94 @@
+# herdr configuration — ~/.tmux.conf keybind'lerine göre uyarlanmış
+#
+# Hiyerarşi eşlemesi:
+#   tmux session  -> herdr workspace
+#   tmux window   -> herdr tab
+#   tmux pane     -> herdr pane
+#
+# Sözdizimi: "prefix+n" = prefix moduna girip n; "ctrl+n" = doğrudan kısayol.
+# Aktif tüm binding'leri canlı görmek için: prefix+?
+
+[keys]
+# ---- PREFIX (tmux: set -g prefix C-Space) ----
+prefix = "ctrl+space"
+
+# ---- PANE NAVIGATION (tmux: bind -n C-h/j/k/l) ----
+# Doğrudan ctrl+hjkl + prefix'li yedek. Yedek önemli: herdr'da tmux'un
+# if-shell "$is_vim" passthrough'u yok, nvim içindeyken ctrl+hjkl herdr'a gider.
+focus_pane_left  = ["ctrl+h", "prefix+h"]
+focus_pane_down  = ["ctrl+j", "prefix+j"]
+focus_pane_up    = ["ctrl+k", "prefix+k"]
+focus_pane_right = ["ctrl+l", "prefix+l"]
+
+# ---- PANE RESIZE (tmux: bind -r h/j/k/l resize-pane) ----
+# herdr'da yön başına resize action'ı yok; resize modu var: prefix+r sonra hjkl.
+resize_mode = "prefix+r"
+
+# ---- SPLIT (tmux: bind -n C-s split -v / C-v split -h) ----
+split_horizontal = ["ctrl+s", "prefix+minus"]   # alta böler  (tmux -v)
+split_vertical   = ["ctrl+v", "prefix+v"]       # sağa böler  (tmux -h)
+
+# ctrl+v'yi split'e verdiğimiz için `herdr --remote`'un raw-key görsel
+# yapıştırmasını kapatıyoruz; çakışmasın.
+remote_image_paste = ""
+
+# ---- KILL PANE (tmux: bind -n C-w kill-pane) ----
+close_pane = ["ctrl+w", "prefix+x"]
+
+# ---- NEW TAB (tmux: bind -n C-t new-window) ----
+new_tab = ["ctrl+t", "prefix+c"]
+
+# ---- ZOOM (tmux: bind -n C-f resize-pane -Z) ----
+zoom = ["ctrl+f", "prefix+z"]
+
+# ---- TAB SWITCH (tmux: bind -n M-1..9) ----
+# alt+1..9 birincil: option+<rakam> ESC+rakam üretir, bu her terminal
+# kodlamasında tek anlamlıdır. ctrl+1..9'un legacy kodlaması YOK
+# (ctrl+2=NUL, ctrl+3=ESC, ctrl+4=FS...), o yüzden yedek olarak duruyor.
+switch_tab = ["alt+1..9", "ctrl+1..9", "prefix+1..9"]
+previous_tab = "prefix+p"
+next_tab     = "prefix+n"
+
+# ---- SPACE (workspace) — varsayılanda prev/next/indexed BOŞ geliyor ----
+# Şema: ctrl+<key> = pane/tab (sık), prefix+ctrl+<key> = space (seyrek).
+# Alt hiç kullanılmıyor. shift+rakam da yok — Türkçe klavyede rakam üstleri
+# sembole düşüyor, karışmasın.
+switch_workspace   = "prefix+ctrl+1..9"
+previous_workspace = "prefix+ctrl+h"
+next_workspace     = "prefix+ctrl+l"
+# ctrl+t / ctrl+w'nin space seviyesindeki karşılıkları. herdr'da bölgeye göre
+# değişen keymap yok (spaces paneli focuslu iken ctrl+t'yi farklı davrandırmak
+# mümkün değil), o yüzden aynı harfler bir modifier yukarıda:
+#   ctrl+t = yeni tab        prefix+ctrl+t = yeni space
+#   ctrl+w = pane kapat      prefix+ctrl+w = space kapat
+new_workspace   = ["prefix+ctrl+t", "prefix+shift+n"]
+close_workspace = ["prefix+ctrl+w", "prefix+shift+d"]
+# Space listesi tek chord'da: prefix ctrl+space olduğu için ctrl+shift+space.
+workspace_picker   = ["ctrl+shift+space", "prefix+w"]
+# Aktif space'i anında yeniden adlandır.
+# Navigator içinde scope'lu "r" herdr'da YOK: navigate mode yalnızca altı
+# hareket action'ı kabul ediyor (navigate_workspace_up/down, navigate_pane_*),
+# rename diye bir navigate action'ı tanımlı değil. Çıplak "r" de global
+# bağlanamaz, her pane'de yazılan r'yi yutar. En yakını option+r:
+# alt+r = ESC r, her terminal kodlamasında tek anlamlı, tek modifier.
+rename_workspace   = ["alt+r", "ctrl+shift+r", "prefix+shift+w"]
+
+# ---- tmux refleksleri ----
+# detach SADECE prefix+q. prefix+d bilerek bağlı değil: tmux'ta detach demek
+# zararsızken herdr'da yanlışlıkla oturumdan düşmek can sıkıcı.
+detach     = "prefix+q"
+rename_tab = ["prefix+shift+t", "prefix+comma"]        # tmux: prefix+,
+close_tab  = ["prefix+shift+x", "prefix+ampersand"]    # tmux: prefix+&
+last_pane  = "prefix+semicolon"                        # tmux: prefix+;
+
+# copy_mode varsayılanı zaten prefix+[ — tmux ile aynı, dokunmuyoruz.
+# Seçim/kopyalama herdr'ın kendi copy-mode'u ile yapılır (tmux'taki
+# vi-mode v/y binding'lerinin karşılığı yok, gerek de yok).
+
+[ui]
+# tmux: set -g mouse on
+mouse_capture = true
+# tmux: set -g set-clipboard on — sürükleyerek seçince otomatik kopyala
+copy_on_select = true
+# tmux new-window isim sormaz; aynı davranış için:
+prompt_new_tab_name = false

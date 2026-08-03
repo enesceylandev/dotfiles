@@ -73,6 +73,7 @@ echo ""
 echo "=== Step 3: XDG Config symlinks (~/.config/*) ==="
 
 create_symlink "$DOTFILES_LINK/configs/kitty" "$CONFIG_DIR/kitty"
+create_symlink "$DOTFILES_LINK/configs/herdr" "$CONFIG_DIR/herdr"
 create_symlink "$DOTFILES_LINK/configs/nvim" "$CONFIG_DIR/nvim"
 create_symlink "$DOTFILES_LINK/configs/tmux" "$CONFIG_DIR/tmux"
 create_symlink "$DOTFILES_LINK/configs/git" "$CONFIG_DIR/git"

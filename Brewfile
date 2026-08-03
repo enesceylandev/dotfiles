@@ -2,6 +2,7 @@ tap "anomalyco/tap"
 tap "supabase/tap"
 
 brew "tmux"
+brew "herdr"
 brew "neovim"
 brew "node"
 brew "go"

@@ -1,0 +1,7 @@
+# ~/.config/herdr bu dizine symlink'lendiginde herdr calisma-zamani
+# dosyalarini buraya yazar. Sadece config.toml takip edilir.
+session.json
+*.log
+*.sock
+.plugins.lock
+config.toml.bak.*
