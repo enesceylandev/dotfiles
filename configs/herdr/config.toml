@@ -42,17 +42,18 @@ new_tab = ["ctrl+t", "prefix+c"]
 zoom = ["ctrl+f", "prefix+z"]
 
 # ---- TAB SWITCH (tmux: bind -n M-1..9) ----
-# alt+1..9 birincil: option+<rakam> ESC+rakam üretir, bu her terminal
-# kodlamasında tek anlamlıdır. ctrl+1..9'un legacy kodlaması YOK
-# (ctrl+2=NUL, ctrl+3=ESC, ctrl+4=FS...), o yüzden yedek olarak duruyor.
-switch_tab = ["alt+1..9", "ctrl+1..9", "prefix+1..9"]
+# alt+1..9: option+<rakam> ESC+rakam üretir, her terminal kodlamasında
+# tek anlamlı. ctrl+1..9 BİLEREK yok: legacy kodlamada ctrl+2 = NUL, yani
+# prefix (ctrl+space) ile aynı bayt; ctrl+3 = ESC, ctrl+8 = DEL. Yedek
+# olarak bile tutmaya değmez, prefix'i gölgeleme riski var.
+switch_tab = ["alt+1..9", "prefix+1..9"]
 previous_tab = "prefix+p"
 next_tab     = "prefix+n"
 
 # ---- SPACE (workspace) — varsayılanda prev/next/indexed BOŞ geliyor ----
 # Şema: ctrl+<key> = pane/tab (sık), prefix+ctrl+<key> = space (seyrek).
-# Alt hiç kullanılmıyor. shift+rakam da yok — Türkçe klavyede rakam üstleri
-# sembole düşüyor, karışmasın.
+# Alt tab geçişi (alt+1..9) ve space rename (alt+r) için kullanılıyor.
+# shift+rakam yok — Türkçe klavyede rakam üstleri sembole düşüyor, karışmasın.
 switch_workspace   = "prefix+ctrl+1..9"
 previous_workspace = "prefix+ctrl+h"
 next_workspace     = "prefix+ctrl+l"
