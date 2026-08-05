@@ -32,8 +32,10 @@ split_vertical   = ["ctrl+v", "prefix+v"]       # sağa böler  (tmux -h)
 # yapıştırmasını kapatıyoruz; çakışmasın.
 remote_image_paste = ""
 
-# ---- KILL PANE (tmux: bind -n C-w kill-pane) ----
-close_pane = ["ctrl+w", "prefix+x"]
+# ---- KILL PANE (tmux: bind -n C-w kill-pane; prefix+x tmux'ta unbind edildi) ----
+# prefix+x herdr'da da kaldırıldı: tmux ile tutarlı, yanlışlıkla pane/space
+# kapanmasın. Pane kapatma yalnızca ctrl+w ile.
+close_pane = ["ctrl+w"]
 
 # ---- NEW TAB (tmux: bind -n C-t new-window) ----
 new_tab = ["ctrl+t", "prefix+c"]
@@ -82,9 +84,23 @@ rename_tab = ["prefix+shift+t", "prefix+comma"]        # tmux: prefix+,
 close_tab  = ["prefix+shift+x", "prefix+ampersand"]    # tmux: prefix+&
 last_pane  = "prefix+semicolon"                        # tmux: prefix+;
 
+# edit_scrollback varsayılanı prefix+e; worktree swap'a verebilmek için boşaltıyoruz.
+edit_scrollback = ""
+
 # copy_mode varsayılanı zaten prefix+[ — tmux ile aynı, dokunmuyoruz.
 # Seçim/kopyalama herdr'ın kendi copy-mode'u ile yapılır (tmux'taki
 # vi-mode v/y binding'lerinin karşılığı yok, gerek de yok).
+
+# ---- WORKTREE SWAP (Prefix + e) ----
+# Bir worktree workspace'inde pane focuslayıp prefix+e'ye basınca:
+# o worktree'nin branch'ini main repo'ya promote eder (inspect için),
+# mevcut main branch'ini <repo>-<branch> sibling worktree'ye taşır.
+# WIP (worktree + main) stash'lenip doğru yere geri yüklenir.
+# Detay: worktree-swap.sh --help
+[[keys.command]]
+key = "prefix+e"
+type = "shell"
+command = "$HOME/Documents/dotfiles/configs/herdr/scripts/worktree-swap.sh"
 
 [ui]
 # tmux: set -g mouse on
@@ -93,3 +109,7 @@ mouse_capture = true
 copy_on_select = true
 # tmux new-window isim sormaz; aynı davranış için:
 prompt_new_tab_name = false
+agent_panel_sort = "priority"
+
+[ui.sound]
+enabled = true
