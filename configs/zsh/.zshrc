@@ -98,3 +98,9 @@ export EDITOR='nvim-opencode'
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 export PATH="$HOME/.bun/bin:$PATH"
+
+# boemar-hr — `wt` komutu + worktree/snapshot adları için tab tamamlama.
+# oh-my-zsh compinit'i yukarıda çalıştırdığı için burası doğru yer.
+# Varlık kontrolü: repo taşınırsa her yeni terminal hata basmasın.
+[ -f "$HOME/Documents/boemar-hr/scripts/wt-completion.zsh" ] &&
+  source "$HOME/Documents/boemar-hr/scripts/wt-completion.zsh"
