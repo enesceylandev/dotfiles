@@ -97,10 +97,27 @@ edit_scrollback = ""
 # mevcut main branch'ini <repo>-<branch> sibling worktree'ye taşır.
 # WIP (worktree + main) stash'lenip doğru yere geri yüklenir.
 # Detay: worktree-swap.sh --help
+# worktree-swap prefix+e'den ALINDI: script bozuk ve kullanılmıyor, tuş wt
+# menüsüne verildi. Script yerinde duruyor (scripts/worktree-swap.sh), düzelince
+# menüye bir madde olarak girmesi planlanıyor — o zaman kendi tuşuna gerek kalmaz.
+# [[keys.command]]
+# key = "prefix+e"
+# type = "shell"
+# command = "$HOME/Documents/dotfiles/configs/herdr/scripts/worktree-swap.sh"
+
+# ---- WT SLOT MENÜSÜ (Prefix + E) ----
+# Üç panelli dialog: worktree'ler, izole slotlar, snapshot'lar.
+# ctrl+j/k (veya tab, ctrl+alt+ok) panel değiştirir, j/k satır gezer,
+# worktree'de enter snapshot seçtirip slotu kurar, slot/snapshot üzerinde
+# d siler. Kaynak: plugins/wt/
+#
+# type = "plugin_action": action headless çalışır ve tek işi popup pane'ini
+# açmaktır — tuşu doğrudan bir TUI'ye bağlamanın yolu yok.
 [[keys.command]]
 key = "prefix+e"
-type = "shell"
-command = "$HOME/Documents/dotfiles/configs/herdr/scripts/worktree-swap.sh"
+type = "plugin_action"
+command = "boemar.wt.menu"
+description = "wt: worktree slot menüsü"
 
 [ui]
 # tmux: set -g mouse on
