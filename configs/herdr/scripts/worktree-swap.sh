@@ -37,7 +37,8 @@ mkdir -p "$(dirname "$LOG_FILE")" 2>/dev/null || true
 
 log() { echo "[$(date '+%H:%M:%S')] $*" >>"$LOG_FILE" 2>/dev/null || true; }
 say() { echo "worktree-swap: $*"; log "$*"; }
-err() { say "ERROR: $*"; exit 1; }
+notify() { "$HERDR_BIN" notification show "worktree-swap" --body "$*" 2>/dev/null || true; }
+err() { say "ERROR: $*"; notify "FAILED: $*"; exit 1; }
 
 run() {
     if [ "$DRY_RUN" -eq 1 ]; then
@@ -48,11 +49,13 @@ run() {
     fi
 }
 
-jpane() { printf '%s' "$PANE_JSON" | python3 -c 'import json,sys; d=json.load(sys.stdin)["result"]["pane"]; print(d[sys.argv[1]])' "$1"; }
+jpane() { printf '%s' "$PANE_JSON" | python3 -c 'import json,sys; d=json.load(sys.stdin)["result"]["pane"]; v=d.get(sys.argv[1]); print("" if v is None else v)' "$1"; }
 
 PANE_JSON="$("$HERDR_BIN" pane current)" || err "herdr pane current failed (not in a herdr session?)"
 CWD="$(jpane cwd)"
 FOCUSED_WS="$(jpane workspace_id)"
+FOCUSED_PANE="$(jpane pane_id)"
+FOCUSED_AGENT="$(jpane agent)"
 
 cd "$CWD" 2>/dev/null || err "cannot cd to focused pane path ($CWD)"
 git rev-parse --is-inside-work-tree >/dev/null 2>&1 || err "focused pane is not inside a git work tree"
@@ -90,8 +93,21 @@ print(wid(sys.argv[1], True), wid(sys.argv[2], False))
 TARGET_WS_ID="$(printf '%s' "$PARSED" | awk '{print $1}')"
 MAIN_WS_ID="$(printf '%s' "$PARSED" | awk '{print $2}')"
 
-[ -z "$TARGET_WS_ID" ] && err "no open herdr workspace for worktree $WT_PATH. Open it first: herdr worktree open"
-[ -z "$MAIN_WS_ID" ] && err "no open herdr workspace for main repo $MAIN_ROOT"
+USE_HERDR_REMOVE=0
+NEEDS_PANE_RELOCATE=0
+if [ -n "$TARGET_WS_ID" ]; then
+    USE_HERDR_REMOVE=1
+    say "worktree is open as herdr workspace $TARGET_WS_ID -> will use herdr worktree remove"
+else
+    if [ -n "$FOCUSED_AGENT" ]; then
+        err "focused pane runs agent '$FOCUSED_AGENT' but worktree has no herdr workspace. Open it first: herdr worktree open (so herdr manages the agent), then retry."
+    fi
+    NEEDS_PANE_RELOCATE=1
+    say "worktree has no open herdr workspace -> will use raw git worktree remove + relocate pane $FOCUSED_PANE"
+fi
+if [ -z "$MAIN_WS_ID" ]; then
+    say "WARN: no open herdr workspace tracks main repo $MAIN_ROOT (generic workspaces have no git metadata); will skip final focus-main step"
+fi
 
 MARK="wtswap-$(date +%s)-$$"
 
@@ -129,10 +145,14 @@ stash_if_dirty "$MAIN_ROOT" "${MARK}-x" && STASHED_X=1
 say "promote: $WT_BRANCH  (worktree $WT_PATH, ws $TARGET_WS_ID)"
 say "demote:  $MAIN_BRANCH -> $NEW_WT"
 
-if [ "$FORCE" -eq 1 ]; then
-    run "$HERDR_BIN" worktree remove --workspace "$TARGET_WS_ID" --force
+if [ "$USE_HERDR_REMOVE" -eq 1 ]; then
+    if [ "$FORCE" -eq 1 ]; then
+        run "$HERDR_BIN" worktree remove --workspace "$TARGET_WS_ID" --force
+    else
+        run "$HERDR_BIN" worktree remove --workspace "$TARGET_WS_ID"
+    fi
 else
-    run "$HERDR_BIN" worktree remove --workspace "$TARGET_WS_ID"
+    run git worktree remove "$WT_PATH"
 fi
 
 run git -C "$MAIN_ROOT" checkout "$WT_BRANCH"
@@ -142,7 +162,14 @@ run "$HERDR_BIN" worktree create --path "$NEW_WT" --branch "$MAIN_BRANCH" --cwd 
 [ "$STASHED_X" -eq 1 ] && pop_by_mark "$NEW_WT" "${MARK}-x"
 
 if [ "$DRY_RUN" -eq 0 ]; then
-    "$HERDR_BIN" workspace focus "$MAIN_WS_ID" 2>/dev/null || true
+    if [ "$NEEDS_PANE_RELOCATE" -eq 1 ]; then
+        "$HERDR_BIN" pane send-text "$FOCUSED_PANE" "cd '$MAIN_ROOT'" 2>/dev/null || true
+        "$HERDR_BIN" pane send-keys "$FOCUSED_PANE" enter 2>/dev/null || true
+    fi
+    if [ -n "$MAIN_WS_ID" ]; then
+        "$HERDR_BIN" workspace focus "$MAIN_WS_ID" 2>/dev/null || true
+    fi
 fi
 
 say "DONE: main=$WT_BRANCH | worktree=$NEW_WT ($MAIN_BRANCH)"
+notify "OK: main=$WT_BRANCH, worktree=$(basename "$NEW_WT")"
