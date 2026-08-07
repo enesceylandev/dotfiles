@@ -1,0 +1,9 @@
+node_modules
+package.json
+package-lock.json
+bun.lock
+*.tui-migration.bak
+# opencode'un urettigi bos marker dosyasi
+cfa3e5843d6f4ee8aac7ae511a8eaafe.QjD5ChhzHTwgtFRB
+# herdr entegrasyonu kurulumda/guncellemede bu dosyayi yeniden yazar
+plugins/herdr-agent-state.js
