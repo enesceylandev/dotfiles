@@ -1,0 +1,50 @@
+# wt — izole worktree slotlarını tek dialogdan yönet.
+#
+# Herdr pencereyi ve tuşu verir, widget vermez: API'de dialog/menü/picker yok
+# (0.8.0 şemasında UI'ye en yakın method `agent.prompt`, o da agent'a özel).
+# Yani üç panelli görünümü çizen taraf biziz — popup içinde çalışan bir terminal
+# programı olarak.
+#
+# Veri kaynağı `wt-dev.sh --porcelain`: sekme ayrılmış, renksiz, çevirisiz üç
+# kayıt tipi. İnsan görünümünü (`wt`) parse etmiyoruz, o hizalama ve renk
+# değiştirdiğinde kırılırdı.
+
+id = "boemar.wt"
+name = "wt — worktree slotları"
+version = "0.1.0"
+min_herdr_version = "0.8.0"
+description = "İzole worktree slotlarını (Convex + frontend + backend) tek dialogdan yönet"
+platforms = ["macos"]
+
+# Tuşun bağlanacağı yer. Action headless çalışır — interaktif olamaz — o yüzden
+# tek işi popup pane'ini açmak. config.toml'daki binding buna işaret eder:
+#
+#   [[keys.command]]
+#   key = "prefix+e"
+#   type = "plugin_action"
+#   command = "boemar.wt.menu"
+[[actions]]
+id = "menu"
+title = "wt menüsü"
+contexts = ["workspace"]
+command = ["sh", "scripts/open-menu.sh"]
+
+# ASIL DIALOG — ve tek pane. placement = "popup" yalnızca manifest'ten
+# erişilebiliyor; `herdr plugin pane open --placement` 0.8.0'da da sadece
+# overlay|split|tab|zoomed kabul ediyor.
+#
+# ÖLÇÜLDÜ: manifest 104x18 verildiğinde programa 101x16 geliyor — Herdr'ın popup
+# çerçevesi 3 kolon ve 2 satır yiyor. Yani buradaki sayı = istenen içerik + 3 / + 2.
+# İçerik en uzun satırı (slot satırı ve alt bar) ~84 kolon; daha geniş bir popup
+# sağda boşluk demek, çünkü satırlar sola yaslı sabit kolonlar.
+[[panes]]
+id = "menu"
+title = "worktree"
+placement = "popup"
+width = 111
+height = 24
+command = ["bun", "src/menu.ts"]
+
+# `run` pane'i KALDIRILDI: işler artık arka planda çalışıyor, ayrı bir terminal
+# açılmıyor. Çıktı HERDR_PLUGIN_STATE_DIR/wt-run.log'a gidiyor, sonuç bildirimle
+# geliyor, menü açık kalıp tabloyu tazeliyor.
