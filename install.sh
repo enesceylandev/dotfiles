@@ -124,5 +124,25 @@ else
 fi
 
 echo ""
+echo "=== Step 7: Verify the shell end-state ==="
+# Fresh interactive zsh reads the JUST-SYMLINKED ~/.zshrc, so this proves the
+# real boot path: both plugin submodules source cleanly. Non-fatal by design —
+# a WARNING tells the user what to fix instead of aborting the install.
+plugin_report="$(zsh -ic '
+[[ -n $functions[_zsh_autosuggest_start] ]] && echo "autosuggestions: OK" || echo "autosuggestions: MISSING"
+[[ -n $functions[_zsh_highlight] ]] && echo "syntax-highlighting: OK" || echo "syntax-highlighting: MISSING"
+' 2>/dev/null | grep -E 'OK|MISSING' || true)"
+echo "$plugin_report" | sed 's/^/  /'
+# Both lines must be present AND say OK — an empty report (zsh itself failed to
+# boot the config) must not read as success.
+if echo "$plugin_report" | grep -qx "autosuggestions: OK" &&
+   echo "$plugin_report" | grep -qx "syntax-highlighting: OK"; then
+    echo "  OK: zsh plugins load in a fresh interactive shell"
+else
+    echo "  WARNING: a zsh plugin did not load. Check that Step 5 initialized the"
+    echo "  submodules and that ~/.zshrc sources them (tail of configs/zsh/.zshrc)."
+fi
+
+echo ""
 echo "=== Done! ==="
 echo "Restart your terminal or run: source ~/.zshrc"

@@ -45,5 +45,6 @@ cd ~/Documents/dotfiles && ./install.sh
 3. `~/.config/*` symlink'leri + `~/.zshrc`, `~/.zprofile`, `~/.gitconfig`
 4. zsh plugin submodule'leri
 5. herdr integrations (`opencode`, `claude`) — gitignore'lı plugin dosyasını geri yaratır
+6. Doğrulama: fresh interaktif zsh'te plugin'lerin yüklendiği kontrol edilir
 
 Terminali yeniden başlatın: `source ~/.zshrc`.
