@@ -116,11 +116,36 @@ if command -v herdr >/dev/null 2>&1; then
         echo "  herdr integration install $target"
         herdr integration install "$target" || echo "  WARNING: herdr integration install $target failed; run it manually."
     done
+
+    # Local wt plugin (worktree slot menu): the SOURCE is tracked in git, but
+    # herdr's registry (plugins.json) and per-plugin config dir are runtime state
+    # (gitignored), so a fresh clone has the files without the REGISTRATION —
+    # prefix+e would do nothing until the plugin is linked again. Idempotent.
+    echo "  herdr plugin link configs/herdr/plugins/wt"
+    herdr plugin link "$DOTFILES_DIR/configs/herdr/plugins/wt" ||
+        echo "  WARNING: herdr plugin link failed; run it manually."
+
+    # The menu auto-discovers the repo from the workspace cwd, but pinning it
+    # keeps prefix+e working from non-boemar workspaces too. Seed once; the
+    # file is hers to keep (gitignored runtime config).
+    wt_cfg_repo="$HOME/.config/herdr/plugins/config/boemar.wt/repo"
+    if [ ! -f "$wt_cfg_repo" ] && [ -d "$HOME/Documents/boemar-hr" ]; then
+        mkdir -p "$(dirname "$wt_cfg_repo")"
+        echo "$HOME/Documents/boemar-hr" > "$wt_cfg_repo"
+        echo "  Seeded wt plugin repo pin: $wt_cfg_repo"
+    fi
+
+    # The wt menu pane runs "bun src/menu.ts" — without bun the popup dies
+    # instantly. Not auto-installed here (brew bun would duplicate the official
+    # ~/.bun install), just surfaced.
+    command -v bun >/dev/null 2>&1 ||
+        echo "  WARNING: bun not found — the wt menu needs it (https://bun.sh)."
 else
     echo "  WARNING: herdr not found — skipping integration install."
     echo "  After installing herdr (brew install herdr), run:"
     echo "    herdr integration install opencode"
     echo "    herdr integration install claude"
+    echo "    herdr plugin link ~/Documents/dotfiles/configs/herdr/plugins/wt"
 fi
 
 echo ""
