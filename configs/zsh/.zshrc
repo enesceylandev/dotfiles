@@ -104,3 +104,15 @@ export PATH="$HOME/.bun/bin:$PATH"
 # Varlık kontrolü: repo taşınırsa her yeni terminal hata basmasın.
 [ -f "$HOME/Documents/boemar-hr/scripts/wt-completion.zsh" ] &&
   source "$HOME/Documents/boemar-hr/scripts/wt-completion.zsh"
+
+# dotfiles submodule'ları: autosuggestions + syntax-highlighting.
+# ~/.dotfiles -> ~/Documents/dotfiles bağlantısı install.sh'nin 2. adımında kurulur;
+# varlık kontrolü, plugin'ler init edilmemiş bir klonda sessiz kalsın diye.
+_zsh_plugins="$HOME/.dotfiles/configs/zsh/plugins"
+[ -f "$_zsh_plugins/zsh-autosuggestions/zsh-autosuggestions.zsh" ] &&
+  source "$_zsh_plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
+# syntax-highlighting EN SON source edilmeli (upstream sözleşmesi: sonrasında
+# tanımlanan alias/wrapper'lar vurgulanmaz), bu yüzden dosyanın altındadır.
+[ -f "$_zsh_plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh" ] &&
+  source "$_zsh_plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh"
+unset _zsh_plugins
