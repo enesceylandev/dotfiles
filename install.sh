@@ -89,11 +89,38 @@ create_symlink "$DOTFILES_LINK/configs/git/.gitconfig" "$HOME/.gitconfig"
 
 echo ""
 echo "=== Step 5: Git submodules (zsh plugins) ==="
-if [ ! -d "$DOTFILES_DIR/configs/zsh/plugins/zsh-autosuggestions" ]; then
+# A fresh clone creates the submodule MOUNTPOINT directories as empty dirs, so a
+# plain [ -d ] check would wrongly report the plugins as present and skip the
+# init entirely — the plugins then never land on the new machine. Probe for a
+# real file inside the checkout instead, and make the init unconditional-safe.
+if [ ! -f "$DOTFILES_DIR/configs/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh" ] ||
+   [ ! -f "$DOTFILES_DIR/configs/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh" ]; then
     echo "  Initializing git submodules..."
     git -C "$DOTFILES_DIR" submodule update --init --recursive
 else
     echo "  OK: zsh plugins present"
+fi
+
+echo ""
+echo "=== Step 6: herdr agent integrations ==="
+# The herdr -> opencode plugin (configs/opencode/plugins/herdr-agent-state.js) is
+# DELIBERATELY gitignored (herdr rewrites the file on every integration update),
+# so a fresh clone symlinks ~/.config/opencode into this repo with an EMPTY
+# plugins/ directory — the plugin would silently never load and herdr would lose
+# agent-state reporting (working/blocked/idle) for opencode. Reinstalling the
+# integration recreates it; the command is idempotent and a no-op when current.
+# The claude hook lives outside dotfiles (~/.claude/hooks) but is equally absent
+# on a fresh machine, so it is reinstalled here too.
+if command -v herdr >/dev/null 2>&1; then
+    for target in opencode claude; do
+        echo "  herdr integration install $target"
+        herdr integration install "$target" || echo "  WARNING: herdr integration install $target failed; run it manually."
+    done
+else
+    echo "  WARNING: herdr not found — skipping integration install."
+    echo "  After installing herdr (brew install herdr), run:"
+    echo "    herdr integration install opencode"
+    echo "    herdr integration install claude"
 fi
 
 echo ""
