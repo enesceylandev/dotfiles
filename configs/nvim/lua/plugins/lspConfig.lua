@@ -10,6 +10,11 @@ return {
     config = function()
       require('mason-lspconfig').setup {
         ensure_installed = { 'html', 'lua_ls', 'eslint' },
+        -- automatic_enable starts EVERY server installed under Mason, not just
+        -- the ones listed above. harper-ls (an English grammar/spell checker
+        -- that none-ls's automatic_installation pulled in on its own) was being
+        -- started that way and underlining Turkish prose in markdown.
+        automatic_enable = { exclude = { 'harper_ls' } },
       }
     end,
   },
@@ -36,6 +41,26 @@ return {
         vim.lsp.config(server, { on_attach = on_attach })
         vim.lsp.enable(server)
       end
+
+      -- Belt and braces for harper_ls (see the mason-lspconfig exclude above):
+      -- keep it disabled even if something else tries to enable it, and drop any
+      -- diagnostics it managed to publish, since the underlines they draw
+      -- otherwise survive a detach and reappear on redraw (after a search, say).
+      vim.lsp.enable('harper_ls', false)
+
+      vim.api.nvim_create_autocmd('LspAttach', {
+        group = vim.api.nvim_create_augroup('DisableHarperLs', { clear = true }),
+        callback = function(args)
+          local client = vim.lsp.get_client_by_id(args.data.client_id)
+          if client and client.name == 'harper_ls' then
+            vim.schedule(function()
+              vim.diagnostic.reset(vim.lsp.diagnostic.get_namespace(args.data.client_id), args.buf)
+              vim.lsp.buf_detach_client(args.buf, args.data.client_id)
+              client:stop(true)
+            end)
+          end
+        end,
+      })
 
       _G.lsp_on_attach = on_attach
     end,
